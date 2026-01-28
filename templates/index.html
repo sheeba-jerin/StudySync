@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>StudySync</title>
+    <meta charset="UTF-8">
+    <title>StudySync</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>StudySync is Live 🚀</h1>
-  <p>Your Flask app is successfully deployed.</p>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">StudySync</div>
+    <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('planner') }}">Planner</a></li>
+        <li><a href="{{ url_for('notes') }}">Notes</a></li>
+        <li><a href="{{ url_for('progress') }}">Progress</a></li>
+    </ul>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>Smarter Studying Starts Here 📘</h1>
+        <p>
+            Plan your studies, organize notes, track progress,
+            and stay motivated every single day — all in one powerful dashboard.
+        </p>
+        <a href="{{ url_for('planner') }}" class="cta-btn">Start Planning</a>
+    </div>
+
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Students studying">
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <h2>Why Students Love StudySync 🚀</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>📅 Smart Planner</h3>
+            <p>Organize your daily study schedule efficiently and never miss deadlines.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>📁 Organized Notes</h3>
+            <p>Store, search, and manage all your study notes in one place.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>📊 Progress Tracking</h3>
+            <p>Track your learning progress visually and stay motivated.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🤖 AI Support</h3>
+            <p>Get smart study suggestions and personalized guidance.</p>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>

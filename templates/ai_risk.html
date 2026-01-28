@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Title -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-danger">🚨 AI Failure Risk Monitor</h2>
+    <p class="text-muted">
+      Predicts academic failure risk using workload pressure, performance trends, and behavioral data
+    </p>
+  </div>
+
+  {% if result %}
+
+  <!-- Risk Summary Cards -->
+  <div class="row text-center mb-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-danger">
+        <div class="card-body">
+          <h6 class="text-uppercase text-muted">Failure Risk</h6>
+          <h2 class="fw-bold text-danger">{{ result.risk }}%</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-warning">
+        <div class="card-body">
+          <h6 class="text-uppercase text-muted">Risk Level</h6>
+          <h4 class="fw-bold">{{ result.level }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-primary">
+        <div class="card-body">
+          <h6 class="text-uppercase text-muted">Active Tasks</h6>
+          <h4 class="fw-bold">{{ result.tasks }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graph -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="fw-semibold mb-3">📊 Risk Factor Analysis</h5>
+      <canvas id="riskChart"></canvas>
+    </div>
+  </div>
+
+  <!-- AI Explanation -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="fw-semibold mb-2">🧠 AI Insight</h5>
+      <p class="mb-0">{{ result.insight }}</p>
+    </div>
+  </div>
+
+  {% else %}
+
+  <!-- Empty State -->
+  <div class="alert alert-info text-center">
+    <strong>No risk data available.</strong><br>
+    Use the AI Predictor and Planner to activate risk analysis.
+  </div>
+
+  {% endif %}
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if result %}
+<script>
+  const ctx = document.getElementById('riskChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Study Consistency', 'Attendance', 'Assignments', 'Task Pressure'],
+      datasets: [{
+        label: 'Risk Contribution (%)',
+        data: {{ result.graph | safe }},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100
+        }
+      }
+    }
+  });
+</script>
+{% endif %}
+
+{% endblock %}

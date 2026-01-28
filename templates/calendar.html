@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🗓️ Study Calendar</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div id="calendarView">
+                <p class="text-muted">Loading calendar...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const calendarDiv = document.getElementById("calendarView");
+    const tasks = JSON.parse(localStorage.getItem("studyTasks")) || [];
+
+    if (tasks.length === 0) {
+        calendarDiv.innerHTML = "<p class='text-muted'>No study tasks planned yet.</p>";
+        return;
+    }
+
+    const grouped = {};
+    tasks.forEach(task => {
+        if (!grouped[task.date]) grouped[task.date] = [];
+        grouped[task.date].push(task);
+    });
+
+    let html = "";
+    Object.keys(grouped).sort().forEach(date => {
+        html += `
+            <div class="mb-3">
+                <h5 class="text-primary">${date}</h5>
+                <ul class="list-group">
+        `;
+        grouped[date].forEach(task => {
+            html += `
+                <li class="list-group-item">
+                    ⏰ ${task.time} — <strong>${task.subject}</strong>
+                </li>
+            `;
+        });
+        html += `
+                </ul>
+            </div>
+        `;
+    });
+
+    calendarDiv.innerHTML = html;
+});
+</script>
+{% endblock %}

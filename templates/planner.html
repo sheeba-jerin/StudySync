@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📅 Study Planner</h2>
+
+    <!-- Priority Alerts -->
+    <div id="priorityAlert" class="alert alert-warning d-none mt-3" role="alert">
+        ⚠️ You have pending study tasks scheduled for today.
+    </div>
+
+    <!-- Planner Form -->
+    <div class="card shadow-sm p-4 mb-4">
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="date" name="date" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                </div>
+
+                <div class="col-md-2">
+                    <input type="time" name="time" class="form-control" required>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Planner List -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Your Planned Tasks</h5>
+
+            <ul class="list-group list-group-flush">
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ task.subject }}</strong><br>
+                                <small class="text-muted">{{ task.datetime }}</small>
+                            </div>
+
+                            <div class="d-flex gap-2 align-items-center">
+                                {% if task.done %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+
+                                <!-- DELETE BUTTON -->
+                                <a href="{{ url_for('delete_task', index=loop.index0) }}"
+                                   class="btn btn-sm btn-outline-danger">
+                                    ❌
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-muted text-center">
+                        No tasks planned yet.
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

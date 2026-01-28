@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudySync</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">StudySync</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('planner') }}">Planner</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('notes') }}">Notes</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('progress') }}">Progress</a>
+        </li>
+
+        <!-- 🧠 AI Predictor -->
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="{{ url_for('ai_predict') }}">AI Predictor</a>
+        </li>
+
+        <!-- 📘 AI Study Plan -->
+        <li class="nav-item">
+          <a class="nav-link fw-semibold text-warning" href="{{ url_for('ai_study_plan') }}">
+            AI Study Plan
+          </a>
+        </li>
+
+        <!-- 🚨 AI FAILURE RISK MONITOR (NEW – REAL AI) -->
+        <li class="nav-item">
+          <a class="nav-link fw-semibold text-danger" href="{{ url_for('ai_risk') }}">
+            AI Risk Monitor
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Content -->
+{% block content %}{% endblock %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

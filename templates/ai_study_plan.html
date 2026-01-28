@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">📘 AI Smart Study Plan</h2>
+    <p class="text-muted">
+      Personalized study schedule generated using task urgency and deadlines
+    </p>
+  </div>
+
+  {% if plan and plan|length > 0 %}
+  <div class="table-responsive shadow rounded">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Subject</th>
+          <th>Deadline</th>
+          <th>Priority Score</th>
+          <th>Suggested Study Time (hrs)</th>
+          <th>AI Insight</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in plan %}
+        <tr>
+          <td class="fw-semibold">{{ item.subject }}</td>
+          <td>{{ item.deadline }}</td>
+
+          <td>
+            <span class="badge bg-danger fs-6">
+              {{ item.priority }}
+            </span>
+          </td>
+
+          <td>
+            <span class="badge bg-success fs-6">
+              {{ item.suggested_hours }}
+            </span>
+          </td>
+
+          <!-- ✅ FIXED: Dynamic AI Insight -->
+          <td>
+            <span class="text-muted">
+              {{ item.insight }}
+            </span>
+          </td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% else %}
+  <div class="alert alert-info text-center mt-4">
+    <strong>No active tasks found.</strong><br>
+    Add tasks in Planner to generate an AI study plan.
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

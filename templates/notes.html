@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="mb-4">📘 Notes</h2>
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data" class="card p-3 shadow-sm mb-4">
+        <div class="mb-3">
+            <label class="form-label">Title (optional)</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter note title">
+        </div>
+
+        <div class="mb-3">
+            <input type="file" name="file" class="form-control" required>
+        </div>
+
+        <button class="btn btn-primary">Upload Note</button>
+    </form>
+
+    <!-- Uploaded Notes -->
+    <h4 class="mb-3">📂 Uploaded Notes</h4>
+
+    {% if notes %}
+        <div class="list-group">
+            {% for note in notes %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ note.title }}</strong><br>
+                        <small class="text-muted">{{ note.filename }}</small>
+                    </div>
+
+                    <div class="btn-group">
+                        <a href="{{ url_for('uploaded_file', filename=note.filename) }}"
+                           class="btn btn-sm btn-success" target="_blank">
+                            View
+                        </a>
+
+                        <a href="{{ url_for('delete_note', filename=note.filename) }}"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Delete this note?')">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No notes uploaded yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

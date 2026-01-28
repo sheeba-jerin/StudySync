@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-center">📊 Progress Tracker</h2>
+
+    <!-- Overall Progress -->
+    <div class="card shadow-sm p-4 mb-4 text-center">
+        <h5>Total Completion</h5>
+
+        {% if total > 0 %}
+            {% set percent = (completed / total) * 100 %}
+        {% else %}
+            {% set percent = 0 %}
+        {% endif %}
+
+        <div class="progress mb-2" style="height: 28px;">
+            <div class="progress-bar bg-success progress-bar-striped"
+                 style="width: {{ percent }}%;">
+                {{ percent|round(0) }}%
+            </div>
+        </div>
+
+        <small>{{ completed }} of {{ total }} tasks completed.</small>
+    </div>
+
+    <!-- Task List -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">📌 Your Tasks</h5>
+
+            <ul class="list-group list-group-flush">
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                            <div>
+                                {% if task.done %}
+                                    ✅ <strong>{{ task.subject }}</strong>
+                                {% elif task.overdue %}
+                                    ❌ <strong class="text-danger">{{ task.subject }}</strong>
+                                {% else %}
+                                    ⬜ <strong>{{ task.subject }}</strong>
+                                {% endif %}
+                                <br>
+                                <small class="text-muted">{{ task.datetime }}</small>
+                            </div>
+
+                            <div class="d-flex gap-2 align-items-center">
+                                <!-- TOGGLE BUTTON -->
+                                <a href="{{ url_for('toggle_task', index=loop.index0) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    {% if task.done %}
+                                        Undo
+                                    {% else %}
+                                        Done
+                                    {% endif %}
+                                </a>
+
+                                {% if task.done %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elif task.overdue %}
+                                    <span class="badge bg-danger">Overdue</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+                            </div>
+
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-muted">
+                        No tasks found. Add tasks from Planner.
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Smart Suggestions -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">🧠 Smart Study Suggestions</h5>
+
+            {% if suggestions %}
+                <ul class="list-group list-group-flush">
+                    {% for s in suggestions %}
+                        <li class="list-group-item">{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">
+                    No suggestions yet. Keep studying!
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
